@@ -1,0 +1,2 @@
+# scheduler
+gmailから情報を取得し、notionデータベースに保存するgasプロジェクト
