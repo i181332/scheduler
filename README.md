@@ -104,15 +104,16 @@ Google Apps Scriptエディタで：
 3. 「スクリプト プロパティ」セクションで以下を追加：
    - `GEMINI_API_KEY`: Gemini APIキー
    - `NOTION_TOKEN`: Notionインテグレーショントークン
+   - `NOTION_PARENT_PAGE_ID`: NotionページID（次ステップで取得）
 
 ### 6. Notionデータベースの自動作成
 
 1. Notionで新しいページを作成（例：「就活管理」）
 2. ページにインテグレーションを接続
 3. ページURLからPage IDをコピー
-4. Google Apps Scriptエディタで`setupNotionDatabase('PAGE_ID')`を実行
-5. ログに表示されたDatabase IDをコピー
-6. スクリプトプロパティに`NOTION_DATABASE_ID`を追加
+4. スクリプトプロパティの`NOTION_PARENT_PAGE_ID`に設定
+5. Google Apps Scriptエディタで`setupNotionDatabase()`を実行
+6. ログに表示されたDatabase IDをスクリプトプロパティ`NOTION_DATABASE_ID`に追加
 
 詳細手順は[NOTION_SETUP.md](./NOTION_SETUP.md)を参照してください。
 

@@ -345,23 +345,31 @@ function debugToday() {
  *
  * 使い方:
  * 1. Notionで新しいページを作成（このページ内にデータベースが作成されます）
- * 2. ページのURLからPage IDをコピー
+ * 2. ページにインテグレーションを接続
+ * 3. ページのURLからPage IDをコピー
  *    例: https://www.notion.so/My-Page-abc123def456... → abc123def456...
- * 3. この関数を実行: setupNotionDatabase('abc123def456...')
- * 4. 表示されたDatabase IDをスクリプトプロパティ NOTION_DATABASE_ID に設定
+ * 4. スクリプトプロパティに NOTION_PARENT_PAGE_ID を設定
+ * 5. この関数を実行: setupNotionDatabase()
+ * 6. 表示されたDatabase IDをスクリプトプロパティ NOTION_DATABASE_ID に設定
  */
-function setupNotionDatabase(parentPageId) {
+function setupNotionDatabase() {
   Logger.info('========================================');
   Logger.info('Notion データベース自動セットアップ');
   Logger.info('========================================\n');
 
+  // スクリプトプロパティから親ページIDを取得
+  const parentPageId = PropertiesService.getScriptProperties().getProperty('NOTION_PARENT_PAGE_ID');
+
   if (!parentPageId) {
-    Logger.error('エラー: 親ページIDが指定されていません');
+    Logger.error('エラー: NOTION_PARENT_PAGE_ID が設定されていません');
     Logger.info('\n使い方:');
-    Logger.info('1. Notionで新しいページを作成');
-    Logger.info('2. ページのURLからPage IDをコピー');
+    Logger.info('1. Notionで新しいページを作成（例: 「就活管理」）');
+    Logger.info('2. ページにインテグレーションを接続');
+    Logger.info('   （ページの右上 ... → 接続を追加 → インテグレーション選択）');
+    Logger.info('3. ページのURLからPage IDをコピー');
     Logger.info('   例: https://www.notion.so/My-Page-abc123... → abc123...');
-    Logger.info('3. setupNotionDatabase("abc123...") を実行');
+    Logger.info('4. スクリプトプロパティで NOTION_PARENT_PAGE_ID に設定');
+    Logger.info('5. setupNotionDatabase() を実行');
     return;
   }
 

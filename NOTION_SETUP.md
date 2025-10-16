@@ -42,20 +42,16 @@ Google Apps Scriptエディタで：
 2. 「スクリプト プロパティ」セクションで以下を追加：
    - `GEMINI_API_KEY`: Gemini APIキー
    - `NOTION_TOKEN`: Step 1でコピーしたインテグレーショントークン
+   - `NOTION_PARENT_PAGE_ID`: Step 2でコピーしたPage ID
 
 ### Step 4: データベースの自動作成
 
 Google Apps Scriptエディタで：
 
-1. `Main.gs`を開く
-2. 関数選択で `setupNotionDatabase` を選択
-3. コードを編集して、Step 2でコピーしたPage IDを指定：
-   ```javascript
-   setupNotionDatabase('abc123def456...')
-   ```
-4. 「実行」をクリック
-5. 初回実行時は権限の承認が必要
-6. 実行ログに **Database ID** と **Database URL** が表示される
+1. 関数選択で `setupNotionDatabase` を選択
+2. 「実行」をクリック（コード編集は不要）
+3. 初回実行時は権限の承認が必要
+4. 実行ログに **Database ID** と **Database URL** が表示される
 
 ### Step 5: Database IDの設定
 
