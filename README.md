@@ -70,7 +70,7 @@ clasp login
    ```
 5. claspでプッシュ：
    ```bash
-   clasp push
+   clasp push-script
    ```
 
 #### 方法B: 新規プロジェクトを作成する場合
@@ -86,7 +86,7 @@ clasp login
    ```
 3. コードをプッシュ：
    ```bash
-   clasp push
+   clasp push-script
    ```
 
 ### 4. スクリプトプロパティの設定
