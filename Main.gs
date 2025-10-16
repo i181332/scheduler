@@ -339,3 +339,68 @@ function debugToday() {
 
   Logger.info('========================================');
 }
+
+/**
+ * Notionデータベースを自動作成
+ *
+ * 使い方:
+ * 1. Notionで新しいページを作成（このページ内にデータベースが作成されます）
+ * 2. ページのURLからPage IDをコピー
+ *    例: https://www.notion.so/My-Page-abc123def456... → abc123def456...
+ * 3. この関数を実行: setupNotionDatabase('abc123def456...')
+ * 4. 表示されたDatabase IDをスクリプトプロパティ NOTION_DATABASE_ID に設定
+ */
+function setupNotionDatabase(parentPageId) {
+  Logger.info('========================================');
+  Logger.info('Notion データベース自動セットアップ');
+  Logger.info('========================================\n');
+
+  if (!parentPageId) {
+    Logger.error('エラー: 親ページIDが指定されていません');
+    Logger.info('\n使い方:');
+    Logger.info('1. Notionで新しいページを作成');
+    Logger.info('2. ページのURLからPage IDをコピー');
+    Logger.info('   例: https://www.notion.so/My-Page-abc123... → abc123...');
+    Logger.info('3. setupNotionDatabase("abc123...") を実行');
+    return;
+  }
+
+  // APIキーの確認
+  if (!CONFIG.NOTION_TOKEN) {
+    Logger.error('エラー: NOTION_TOKEN が設定されていません');
+    Logger.info('スクリプトプロパティで NOTION_TOKEN を設定してください');
+    return;
+  }
+
+  try {
+    // ページIDの正規化（ハイフンを削除）
+    const pageId = parentPageId.replace(/-/g, '');
+
+    Logger.info('親ページID: ' + pageId);
+    Logger.info('データベースを作成中...\n');
+
+    const result = Notion.createDatabase(pageId, '就活イベント管理');
+
+    Logger.info('\n========================================');
+    Logger.info('✓ データベース作成成功！');
+    Logger.info('========================================\n');
+    Logger.info('Database ID: ' + result.id);
+    Logger.info('Database URL: ' + result.url);
+    Logger.info('\n次のステップ:');
+    Logger.info('1. 上記のDatabase IDをコピー');
+    Logger.info('2. スクリプトプロパティで NOTION_DATABASE_ID に設定');
+    Logger.info('3. Notionでデータベースにインテグレーションを接続');
+    Logger.info('   （データベースの右上 ... → 接続を追加 → インテグレーション選択）');
+    Logger.info('4. checkSetup() を実行して設定を確認');
+    Logger.info('5. debugToday() を実行してテスト');
+    Logger.info('\n========================================');
+
+  } catch (error) {
+    Logger.error('エラー: データベース作成失敗');
+    Logger.error(error.message);
+    Logger.info('\nトラブルシューティング:');
+    Logger.info('- 親ページIDが正しいか確認');
+    Logger.info('- NotionインテグレーションがページにアクセスできるAか確認');
+    Logger.info('- NOTION_TOKEN が正しく設定されているか確認');
+  }
+}

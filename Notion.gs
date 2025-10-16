@@ -497,5 +497,122 @@ const Notion = {
     }
 
     return JSON.parse(responseText);
+  },
+
+  /**
+   * Notionデータベースを自動作成
+   * @param {string} parentPageId - データベースを作成する親ページのID
+   * @param {string} databaseTitle - データベースのタイトル（デフォルト: "就活イベント管理"）
+   * @returns {Object} 作成されたデータベースの情報（database_id を含む）
+   */
+  createDatabase: function(parentPageId, databaseTitle) {
+    const title = databaseTitle || '就活イベント管理';
+
+    Logger.info('Notion: データベース作成開始 - ' + title);
+
+    const url = CONFIG.NOTION.API_BASE + '/databases';
+
+    const payload = {
+      parent: {
+        type: 'page_id',
+        page_id: parentPageId
+      },
+      title: [
+        {
+          type: 'text',
+          text: { content: title }
+        }
+      ],
+      properties: {
+        'Title': {
+          title: {}
+        },
+        'Deadline': {
+          date: {}
+        },
+        'Event Date': {
+          date: {}
+        },
+        'Notification Date': {
+          date: {}
+        },
+        'Date': {
+          date: {}
+        },
+        'Category': {
+          select: {
+            options: [
+              { name: 'ES', color: 'red' },
+              { name: '説明会', color: 'blue' },
+              { name: '面接', color: 'green' },
+              { name: 'インターン', color: 'yellow' },
+              { name: '就活', color: 'purple' }
+            ]
+          }
+        },
+        'Priority': {
+          select: {
+            options: [
+              { name: '最優先', color: 'red' },
+              { name: '高', color: 'orange' },
+              { name: '中', color: 'yellow' },
+              { name: '低', color: 'gray' }
+            ]
+          }
+        },
+        'Status': {
+          select: {
+            options: [
+              { name: '未対応', color: 'red' },
+              { name: '対応中', color: 'yellow' },
+              { name: '完了', color: 'green' }
+            ]
+          }
+        },
+        'Source': {
+          select: {
+            options: []
+          }
+        },
+        'Location': {
+          rich_text: {}
+        },
+        'URL': {
+          url: {}
+        },
+        'Description': {
+          rich_text: {}
+        }
+      }
+    };
+
+    Logger.debug('Notion: データベース作成API呼び出し');
+
+    const response = UrlFetchApp.fetch(url, {
+      method: 'post',
+      headers: {
+        'Authorization': 'Bearer ' + CONFIG.NOTION_TOKEN,
+        'Notion-Version': CONFIG.NOTION.API_VERSION,
+        'Content-Type': 'application/json'
+      },
+      payload: JSON.stringify(payload),
+      muteHttpExceptions: true
+    });
+
+    const statusCode = response.getResponseCode();
+    const responseText = response.getContentText();
+
+    if (statusCode !== 200) {
+      Logger.error('Notion: データベース作成エラー ' + statusCode);
+      Logger.error('Notion: レスポンス - ' + responseText);
+      throw new Error('Notion API error ' + statusCode + ': ' + responseText);
+    }
+
+    const result = JSON.parse(responseText);
+    Logger.info('Notion: データベース作成成功');
+    Logger.info('Database ID: ' + result.id);
+    Logger.info('このIDをスクリプトプロパティ NOTION_DATABASE_ID に設定してください');
+
+    return result;
   }
 };

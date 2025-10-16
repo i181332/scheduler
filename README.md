@@ -89,35 +89,34 @@ clasp login
    clasp push-script
    ```
 
-### 4. スクリプトプロパティの設定
+### 4. Notionインテグレーションの作成
 
-Google Apps Scriptエディタで以下を設定：
+1. [Notion Integrations](https://www.notion.so/my-integrations)にアクセス
+2. 新しいインテグレーションを作成
+3. インテグレーショントークンをコピー
+
+### 5. スクリプトプロパティの初期設定
+
+Google Apps Scriptエディタで：
 
 1. `clasp open`でエディタを開く
 2. 左メニューの「プロジェクトの設定」（⚙️アイコン）をクリック
 3. 「スクリプト プロパティ」セクションで以下を追加：
    - `GEMINI_API_KEY`: Gemini APIキー
    - `NOTION_TOKEN`: Notionインテグレーショントークン
-   - `NOTION_DATABASE_ID`: NotionデータベースID
 
-### 5. Notionデータベースのセットアップ
+### 6. Notionデータベースの自動作成
 
-詳細は[NOTION_SETUP.md](./NOTION_SETUP.md)を参照してください。
+1. Notionで新しいページを作成（例：「就活管理」）
+2. ページにインテグレーションを接続
+3. ページURLからPage IDをコピー
+4. Google Apps Scriptエディタで`setupNotionDatabase('PAGE_ID')`を実行
+5. ログに表示されたDatabase IDをコピー
+6. スクリプトプロパティに`NOTION_DATABASE_ID`を追加
 
-必要なプロパティ：
-- Title (タイトル型)
-- Deadline (Date型) - 申込締切
-- Event Date (Date型) - 開催日
-- Notification Date (Date型) - 通知日
-- Category (セレクト型)
-- Priority (セレクト型)
-- Status (セレクト型)
-- Source (セレクト型)
-- Location (テキスト型)
-- URL (URL型)
-- Description (テキスト型)
+詳細手順は[NOTION_SETUP.md](./NOTION_SETUP.md)を参照してください。
 
-### 6. 初回実行
+### 7. 動作確認
 
 ```javascript
 // セットアップ確認
@@ -203,10 +202,11 @@ yuta_matsuo
 
 ## バージョン
 
-v2.2.0 (2025-10-13)
+v3.0.0 (2025-10-16)
 
 ### 変更履歴
 
+- v3.0.0: Notionデータベース自動作成機能追加、セットアップの簡素化
 - v2.2.0: 日付フィールドの分離、URL・Description追加
 - v2.0.0: Gemini AI統合、状態管理機能追加
 - v1.0.0: 初回リリース
