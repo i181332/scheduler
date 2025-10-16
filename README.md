@@ -36,16 +36,71 @@ Notionデータベース
 - Notion アカウント
 - Notion インテグレーション（[Notion Integrations](https://www.notion.so/my-integrations)）
 
-### 2. Google Apps Script プロジェクトのセットアップ
+### 2. claspのインストール
+
+```bash
+# Node.jsがインストールされていることを確認
+node -v
+npm -v
+
+# claspをグローバルにインストール
+npm install -g @google/clasp
+
+# Googleアカウントでログイン
+clasp login
+```
+
+### 3. Google Apps Script プロジェクトのセットアップ
+
+#### 方法A: 既存プロジェクトを使う場合
 
 1. [Google Apps Script](https://script.google.com/)で新規プロジェクトを作成
-2. 本リポジトリのすべての`.gs`ファイルをコピー
-3. スクリプトプロパティを設定：
+2. プロジェクトの設定から「スクリプトID」をコピー
+3. `.clasp.json`を編集してスクリプトIDを設定：
+   ```json
+   {
+     "scriptId": "YOUR_SCRIPT_ID",
+     "rootDir": "."
+   }
+   ```
+4. 本リポジトリをクローン：
+   ```bash
+   git clone https://github.com/i181332/scheduler.git
+   cd scheduler
+   ```
+5. claspでプッシュ：
+   ```bash
+   clasp push
+   ```
+
+#### 方法B: 新規プロジェクトを作成する場合
+
+1. 本リポジトリをクローン：
+   ```bash
+   git clone https://github.com/i181332/scheduler.git
+   cd scheduler
+   ```
+2. 新規GASプロジェクトを作成：
+   ```bash
+   clasp create --type standalone --title "Smart Schedule Manager"
+   ```
+3. コードをプッシュ：
+   ```bash
+   clasp push
+   ```
+
+### 4. スクリプトプロパティの設定
+
+Google Apps Scriptエディタで以下を設定：
+
+1. `clasp open`でエディタを開く
+2. 左メニューの「プロジェクトの設定」（⚙️アイコン）をクリック
+3. 「スクリプト プロパティ」セクションで以下を追加：
    - `GEMINI_API_KEY`: Gemini APIキー
    - `NOTION_TOKEN`: Notionインテグレーショントークン
    - `NOTION_DATABASE_ID`: NotionデータベースID
 
-### 3. Notionデータベースのセットアップ
+### 5. Notionデータベースのセットアップ
 
 詳細は[NOTION_SETUP.md](./NOTION_SETUP.md)を参照してください。
 
@@ -62,7 +117,7 @@ Notionデータベース
 - URL (URL型)
 - Description (テキスト型)
 
-### 4. 初回実行
+### 6. 初回実行
 
 ```javascript
 // セットアップ確認
