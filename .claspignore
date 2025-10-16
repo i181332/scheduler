@@ -1,0 +1,18 @@
+﻿# Ignore everything by default
+**/*
+
+# Allow v2 files
+!appsscript.json
+!Config.gs
+!Utils.gs
+!Gmail.gs
+!Gemini.gs
+!Notion.gs
+!Main.gs
+!StateManager.gs
+!QuickTest.gs
+
+# Ignore
+backup/
+.git/
+

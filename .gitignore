@@ -1,0 +1,38 @@
+# Smart Schedule Manager Pro - Git Ignore
+
+# 機密情報を含む設定ファイル
+config.json
+.env
+*.secret
+
+# Google Apps Script
+.clasp.json
+
+# Google OAuth2 認証情報
+client_secret*.json
+
+# Node.js
+node_modules/
+package-lock.json
+npm-debug.log*
+
+# ログファイル
+*.log
+logs/
+
+# OS固有
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# エディタ
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 一時ファイル
+tmp/
+temp/
+*.tmp
